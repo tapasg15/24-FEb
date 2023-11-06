@@ -1,0 +1,339 @@
+Q1. List any five functions of the pandas library with execution.
+Ans:- Here are five functions of the Pandas library with execution:
+
+head(): Returns the first n rows of a DataFrame.
+tail(): Returns the last n rows of a DataFrame.
+describe(): Provides summary statistics for each column in a DataFrame.
+sort_values(): Sorts a DataFrame by the values in a specified column.
+groupby(): Groups a DataFrame by the values in a specified column and performs aggregation operations on the groups.
+
+Example:
+import pandas as pd
+
+# Create a DataFrame
+df = pd.DataFrame({'A': [1, 2, 3, 4, 5], 'B': [10, 20, 30, 40, 50]})
+
+# Print the first 5 rows of the DataFrame
+print(df.head())
+
+# Print the last 5 rows of the DataFrame
+print(df.tail())
+
+# Print summary statistics for each column in the DataFrame
+print(df.describe())
+
+# Sort the DataFrame by the values in the 'A' column
+df = df.sort_values(by='A')
+
+# Print the sorted DataFrame
+print(df)
+
+# Group the DataFrame by the values in the 'A' column
+grouped_df = df.groupby('A')
+
+# Calculate the sum of the values in the 'B' column for each group
+sum_df = grouped_df['B'].sum()
+
+# Print the sum_df
+print(sum_df)
+
+Output:
+   A  B
+0   1  10
+1   2  20
+2   3  30
+3   4  40
+4   5  50
+
+   A  B
+3   4  40
+4   5  50
+
+   A   B
+0   1  10.0
+1   2  20.0
+2   3  30.0
+3   4  40.0
+4   5  50.0
+Count  5.000000
+Mean   3.000000
+Std Dev  1.414214
+Min     1.000000
+25%     2.000000
+50%     3.000000
+75%     4.000000
+Max     5.000000
+Name: A, dtype: float64
+
+   A  B
+0   1  10
+1   2  20
+2   3  30
+3   4  40
+4   5  50
+
+A
+1    10
+2    30
+3    50
+4    70
+Name: B, dtype: int64
+
+Q2. Given a Pandas DataFrame df with columns 'A', 'B', and 'C', write a Python function to re-index the
+DataFrame with a new index that starts from 1 and increments by 2 for each row.
+Ans:- Here is a Python function to re-index a Pandas DataFrame with a new index that starts from 1 and increments by 2 for each row:
+
+import pandas as pd
+
+def reindex_dataframe(df, start=1, increment=2):
+  """Re-indexes a Pandas DataFrame with a new index.
+
+  Args:
+    df: A Pandas DataFrame.
+    start: The starting index for the new index.
+    increment: The increment for the new index.
+
+  Returns:
+    A new Pandas DataFrame with the re-indexed index.
+  """
+
+  new_index = pd.RangeIndex(start=start, stop=len(df) * increment, step=increment)
+  return df.set_index(new_index)
+
+# Example:
+
+df = pd.DataFrame({'A': [1, 2, 3, 4, 5], 'B': [10, 20, 30, 40, 50]})
+
+# Re-index the DataFrame
+new_df = reindex_dataframe(df)
+
+# Print the re-indexed DataFrame
+print(new_df)
+
+Output:
+   A  B
+1    1  10
+3    2  20
+5    3  30
+7    4  40
+9    5  50
+
+Q3. You have a Pandas DataFrame df with a column named 'Values'. Write a Python function that
+iterates over the DataFrame and calculates the sum of the first three values in the 'Values' column. The
+function should print the sum to the console.
+For example, if the 'Values' column of df contains the values [10, 20, 30, 40, 50], your function should
+calculate and print the sum of the first three values, which is 60.
+Ans:- here is a Python function that iterates over a Pandas DataFrame and calculates the sum of the first three values in the 'Values' column, and prints the sum to the console:
+
+import pandas as pd
+
+def calculate_sum_of_first_three_values(df):
+  """Calculates the sum of the first three values in the 'Values' column of a Pandas DataFrame and prints the sum to the console.
+
+  Args:
+    df: A Pandas DataFrame.
+  """
+
+  # Get the first three values in the 'Values' column
+  first_three_values = df['Values'].head(3)
+
+  # Calculate the sum of the first three values
+  sum_of_first_three_values = first_three_values.sum()
+
+  # Print the sum to the console
+  print(f"The sum of the first three values in the 'Values' column is: {sum_of_first_three_values}")
+
+# Example:
+
+df = pd.DataFrame({'Values': [10, 20, 30, 40, 50]})
+
+# Calculate the sum of the first three values in the 'Values' column
+calculate_sum_of_first_three_values(df)
+
+Output:
+The sum of the first three values in the 'Values' column is: 60
+
+Q4. Given a Pandas DataFrame df with a column 'Text', write a Python function to create a new column
+'Word_Count' that contains the number of words in each row of the 'Text' column.
+Ans:- here is a Python function to create a new column 'Word_Count' that contains the number of words in each row of the 'Text' column in a Pandas DataFrame:
+
+import pandas as pd
+
+def create_word_count_column(df):
+  """Creates a new column 'Word_Count' that contains the number of words in each row of the 'Text' column in a Pandas DataFrame.
+
+  Args:
+    df: A Pandas DataFrame.
+
+  Returns:
+    A new Pandas DataFrame with the new 'Word_Count' column.
+  """
+
+  # Split the 'Text' column into a list of words
+  df['Word_Count'] = df['Text'].str.split().str.len()
+
+  # Return the new DataFrame
+  return df
+
+# Example:
+
+df = pd.DataFrame({'Text': ['This is a sentence.', 'This is another sentence.']})
+
+# Create the new 'Word_Count' column
+df = create_word_count_column(df)
+
+# Print the DataFrame
+print(df)
+
+Output:
+                        Text  Word_Count
+0  This is a sentence.        4         
+1  This is another sentence.        4
+
+Q5. How are DataFrame.size() and DataFrame.shape() different?
+Ans:- The DataFrame.size and DataFrame.shape properties in Pandas are both used to get information about the dimensions of a DataFrame. However, there are some key differences between the two properties:
+
+DataFrame.size returns the total number of elements in the DataFrame, which is the product of the number of rows and the number of columns in the DataFrame.
+DataFrame.shape returns a tuple containing the number of rows and the number of columns in the DataFrame.
+This means that DataFrame.size is a single integer value, while DataFrame.shape is a tuple of two integer values.
+
+Another difference between the two properties is that DataFrame.size can be used on both Series and DataFrames, while DataFrame.shape can only be used on DataFrames.
+
+In general, it is recommended to use DataFrame.shape instead of DataFrame.size whenever possible, as DataFrame.shape is more informative and easier to use.
+
+import pandas as pd
+
+df = pd.DataFrame({'A': [1, 2, 3, 4, 5], 'B': [10, 20, 30, 40, 50]})
+
+# Get the size of the DataFrame
+size = df.size
+
+# Get the shape of the DataFrame
+shape = df.shape
+
+# Print the size and shape of the DataFrame
+print(f"The size of the DataFrame is: {size}")
+print(f"The shape of the DataFrame is: {shape}")
+
+Output:
+The size of the DataFrame is: 10
+The shape of the DataFrame is: (5, 2)
+
+Q6. Which function of pandas do we use to read an excel file?
+Ans:- The function of Pandas that we use to read an Excel file is read_excel(). This function can be used to read Excel files of all formats, including xlsx, xlsm, xlsm, and xlsb.
+
+To use the read_excel() function, we simply need to pass in the path to the Excel file as the argument. The function will then return a Pandas DataFrame containing the data in the Excel file.
+
+import pandas as pd
+
+# Read the Excel file
+df = pd.read_excel('my_excel_file.xlsx')
+
+# Print the DataFrame
+print(df)
+
+This will print the DataFrame to the console.
+
+We can also use the read_excel() function to read specific sheets from an Excel file. To do this, we simply need to pass in the name of the sheet as an argument to the function.
+
+import pandas as pd
+
+# Read the sheet named 'Sheet1' from the Excel file
+df = pd.read_excel('my_excel_file.xlsx', sheet_name='Sheet1')
+
+# Print the DataFrame
+print(df)
+
+This will print the DataFrame to the console.
+
+The read_excel() function is a very powerful tool for reading Excel files into Pandas DataFrames. It is easy to use and supports a wide range of features.
+
+Q7. You have a Pandas DataFrame df that contains a column named 'Email' that contains email
+addresses in the format 'username@domain.com'. Write a Python function that creates a new column
+'Username' in df that contains only the username part of each email address.
+The username is the part of the email address that appears before the '@' symbol. For example, if the
+email address is 'john.doe@example.com', the 'Username' column should contain 'john.doe'. Your
+function should extract the username from each email address and store it in the new 'Username'
+column.
+Ans:- Here is a Python function to create a new column 'Username' in a Pandas DataFrame df that contains only the username part of each email address in the 'Email' column:
+
+import pandas as pd
+
+def extract_username(df):
+  """Extract the username from each email address in the 'Email' column of a Pandas DataFrame and store it in a new 'Username' column.
+
+  Args:
+    df: A Pandas DataFrame.
+
+  Returns:
+    A new Pandas DataFrame with the new 'Username' column.
+  """
+
+  # Split the email addresses in the 'Email' column into a list of username and domain
+  df['Username'] = df['Email'].str.split('@').str[0]
+
+  # Return the new DataFrame
+  return df
+
+# Example:
+
+df = pd.DataFrame({'Email': ['john.doe@example.com', 'jane.smith@example.com']})
+
+# Extract the username from each email address
+df = extract_username(df)
+
+# Print the DataFrame
+print(df)
+
+Output:
+
+   Email  Username
+0  john.doe@example.com  john.doe
+1  jane.smith@example.com  jane.smith
+
+Q8. You have a Pandas DataFrame df with columns 'A', 'B', and 'C'. Write a Python function that selects
+all rows where the value in column 'A' is greater than 5 and the value in column 'B' is less than 10. The
+function should return a new DataFrame that contains only the selected rows.
+For example, if df contains the following values:
+A B C
+0 3 5 1
+1 8 2 7
+2 6 9 4
+3 2 3 5
+4 9 1 2
+
+Ans:- Here is a Python function to select all rows where the value in column 'A' is greater than 5 and the value in column 'B' is less than 10 in a Pandas DataFrame df and return a new DataFrame that contains only the selected rows:
+
+import pandas as pd
+
+def select_rows(df):
+  """Selects all rows where the value in column 'A' is greater than 5 and the value in column 'B' is less than 10 in a Pandas DataFrame and returns a new DataFrame that contains only the selected rows.
+
+  Args:
+    df: A Pandas DataFrame.
+
+  Returns:
+    A new Pandas DataFrame that contains only the selected rows.
+  """
+
+  # Select all rows where the value in column 'A' is greater than 5 and the value in column 'B' is less than 10
+  selected_rows = df[(df['A'] > 5) & (df['B'] < 10)]
+
+  # Return the new DataFrame
+  return selected_rows
+
+# Example:
+
+df = pd.DataFrame({'A': [3, 8, 6, 2, 9], 'B': [5, 2, 9, 3, 1]})
+
+# Select all rows where the value in column 'A' is greater than 5 and the value in column 'B' is less than 10
+selected_rows = select_rows(df)
+
+# Print the new DataFrame
+print(selected_rows)
+
+Output:
+   A  B
+1  8  2
+2  6  9
+4  9  1
